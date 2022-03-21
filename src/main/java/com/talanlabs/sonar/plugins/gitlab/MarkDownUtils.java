@@ -58,7 +58,7 @@ public class MarkDownUtils {
         } else {
             sb.append(message);
             if (componentKey != null) {
-                sb.append(" ").append("(").append(componentKey).append(")");
+                sb.append(" ").append("(").append(componentKey.replaceAll("\\s", "%20")).append(")");
             }
         }
         sb.append(" ").append("[:blue_book:](").append(ruleLink).append(")");
