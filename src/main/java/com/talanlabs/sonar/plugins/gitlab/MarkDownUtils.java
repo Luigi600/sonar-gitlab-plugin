@@ -54,7 +54,7 @@ public class MarkDownUtils {
         StringBuilder sb = new StringBuilder();
         sb.append(getEmojiForSeverity(severity)).append(" ");
         if (url != null) {
-            sb.append("[").append(message).append("]").append("(").append(url).append(")");
+            sb.append("[").append(message).append("]").append("(").append(url.replaceAll("\\s", "%20")).append(")");
         } else {
             sb.append(message);
             if (componentKey != null) {
