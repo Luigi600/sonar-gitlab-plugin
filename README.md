@@ -7,7 +7,15 @@ Inspired by https://github.com/SonarCommunity/sonar-github
 
 # Current version
 
+## Version 5.2.1
+** Only SonarQube 9.5+**
+
+ * bumped plugin version to 9.5.0.56709
+ * dropped deprecated (and in 9.5 removed) PostJobIssue that was not used anyway
+
 ## Version 5.1.3
+
+**Only SonarQube 9.3+**
 
  * merged [Throw exception on quality gate fail/error](https://github.com/javamachr/sonar-gitlab-plugin/pull/24)
 
