@@ -58,14 +58,23 @@ public class Reporter {
     }
 
     public void process(Issue issue, @Nullable Rule rule, @Nullable String revision, @Nullable String gitLabUrl, @Nullable String src, String ruleLink, boolean reportedOnDiff) {
+        process(issue, rule, revision, gitLabUrl, src, ruleLink, reportedOnDiff, false);
+    }
+
+    public void process(Issue issue, @Nullable Rule rule, @Nullable String revision, @Nullable String gitLabUrl, @Nullable String src, String ruleLink, boolean reportedOnDiff, boolean onlyForQualityReport) {
         String r = revision != null ? revision : gitLabPluginConfiguration.commitSHA().get(0);
         ReportIssue reportIssue = ReportIssue.newBuilder().issue(issue).rule(rule).revision(r).url(gitLabUrl).file(src).ruleLink(ruleLink).reportedOnDiff(reportedOnDiff).build();
         List<ReportIssue> reportIssues = reportIssuesMap.computeIfAbsent(issue.getSeverity(), k -> new ArrayList<>());
-        reportIssues.add(reportIssue);
 
         if (!gitLabPluginConfiguration.jsonMode().equals(JsonMode.NONE)) {
             jsonIssues.add(reportIssue);
         }
+
+        if(onlyForQualityReport) {
+            return;
+        }
+
+        reportIssues.add(reportIssue);
 
         increment(issue.getSeverity());
         if (!reportedOnDiff) {

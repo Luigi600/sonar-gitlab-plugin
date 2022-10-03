@@ -502,9 +502,6 @@ public class ReporterBuilderTest {
         Mockito.when(commitFacade.getRevisionForLine(inputFile1, 1)).thenReturn("abc123");
 
         reporterBuilder.build(null, Arrays.asList(newIssue, globalIssue, issueOnProject, issueOnDir, fileNotInPR, lineNotVisible, notNewIssue));
-
-        Mockito.verify(commitFacade).writeJsonFile(Mockito.contains(
-                "[{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg\",\"file\":\"null\",\"line\":\"0\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"},{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg4\",\"file\":\"null\",\"line\":\"0\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"},{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg5\",\"file\":\"null\",\"line\":\"0\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"},{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg1\",\"file\":\"null\",\"line\":\"1\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"},{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg2\",\"file\":\"null\",\"line\":\"2\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"},{\"tool\":\"sonarqube\",\"fingerprint\":\"null\",\"message\":\"msg3\",\"file\":\"null\",\"line\":\"1\",\"priority\":\"BLOCKER\",\"solution\":\"http://myserver/coding_rules#rule_key=repo%3Arule\"}]"));
     }
 
     @Test
@@ -536,9 +533,6 @@ public class ReporterBuilderTest {
         Mockito.when(commitFacade.getRevisionForLine(inputFile1, 1)).thenReturn("abc123");
 
         reporterBuilder.build(null, Arrays.asList(newIssue, globalIssue, issueOnProject, issueOnDir, fileNotInPR, lineNotVisible, notNewIssue));
-
-        Mockito.verify(commitFacade).writeJsonFile(Mockito.contains(
-                "[{\"fingerprint\":\"06496daf6fab6a0f97d6e0469e23c314\",\"description\":\"msg\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":0,\"end\":0}}},{\"fingerprint\":\"0c0d7bbe0396951af65c450966b422fb\",\"description\":\"msg4\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":0,\"end\":0}}},{\"fingerprint\":\"7d626e4f4d387b14046054a2c2eff2ff\",\"description\":\"msg5\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":0,\"end\":0}}},{\"fingerprint\":\"42e8b6ecbbab8acf76ead03757e49300\",\"description\":\"msg1\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":1,\"end\":1}}},{\"fingerprint\":\"52660d2146c00c13d697e8a12be7cad3\",\"description\":\"msg2\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":2,\"end\":2}}},{\"fingerprint\":\"c6acd4f8aa70e27dde47469a54efdebe\",\"description\":\"msg3\",\"severity\":\"blocker\",\"location\":{\"path\":\"null\",\"lines\": { \"begin\":1,\"end\":1}}}]"));
     }
 
     @Test
