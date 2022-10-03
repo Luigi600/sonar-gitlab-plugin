@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @ScannerSide
@@ -88,8 +89,8 @@ public class ReporterBuilder {
     }
 
     private void processIssues(Reporter report, List<Issue> issues) {
-        Stream<Issue> realIssues = getStreamIssue(issues).sorted(ISSUE_COMPARATOR);
-        issues.stream().sorted(ISSUE_COMPARATOR).forEach(i -> processIssue(report, i, realIssues.anyMatch((it) -> it == i)));
+        List<Issue> realIssues = getStreamIssue(issues).sorted(ISSUE_COMPARATOR).collect(Collectors.toList());
+        issues.stream().sorted(ISSUE_COMPARATOR).forEach(i -> processIssue(report, i, !realIssues.contains(i)));
     }
 
     private Stream<Issue> getStreamIssue(List<Issue> issues) {
@@ -106,7 +107,7 @@ public class ReporterBuilder {
         return hasFile && issue.getLine() != null && commitFacade.getRevisionForLine(issue.getFile(), issue.getLine()) != null;
     }
 
-    private void processIssue(Reporter report, Issue issue, boolean realReport) {
+    private void processIssue(Reporter report, Issue issue, boolean onlyForQualityReport) {
         boolean reportedInline = false;
 
         String revision = null;
@@ -127,11 +128,7 @@ public class ReporterBuilder {
                 rule = sonarFacade.getRule(issue.getRuleKey());
             }
 
-            report.processQuality(issue, rule, revision, url, src, ruleLink);
-
-            if(realReport) {
-                report.process(issue, rule, revision, url, src, ruleLink, reportedInline);
-            }
+            report.process(issue, rule, revision, url, src, ruleLink, reportedInline, onlyForQualityReport);
         }
     }
 

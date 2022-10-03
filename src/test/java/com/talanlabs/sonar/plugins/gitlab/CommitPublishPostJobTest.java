@@ -112,7 +112,7 @@ public class CommitPublishPostJobTest {
     @Test
     public void testUnexpectedException() {
 
-        Assertions.assertThatThrownBy(() -> commitPublishPostJob.execute(context)).isInstanceOf(MessageException.class).hasMessage("SonarQube failed to complete the review of this commit: null");
+        Assertions.assertThatThrownBy(() -> commitPublishPostJob.execute(context)).isInstanceOf(MessageException.class).hasMessageContaining("SonarQube failed to complete the review of this commit");
     }
 
     @Test
