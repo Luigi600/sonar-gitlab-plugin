@@ -63,10 +63,6 @@ public class Reporter {
         List<ReportIssue> reportIssues = reportIssuesMap.computeIfAbsent(issue.getSeverity(), k -> new ArrayList<>());
         reportIssues.add(reportIssue);
 
-        if (!gitLabPluginConfiguration.jsonMode().equals(JsonMode.NONE)) {
-            jsonIssues.add(reportIssue);
-        }
-
         increment(issue.getSeverity());
         if (!reportedOnDiff) {
             notReportedIssueCount++;
@@ -78,6 +74,15 @@ public class Reporter {
             Map<Integer, List<ReportIssue>> issuesByLine = fileLineMap.computeIfAbsent(issue.getFile(), k -> new HashMap<>());
             issuesByLine.computeIfAbsent(issue.getLine(), k -> new ArrayList<>()).add(reportIssue);
         }
+    }
+
+    public void processQuality(Issue issue, @Nullable Rule rule, @Nullable String revision, @Nullable String gitLabUrl, @Nullable String src, String ruleLink) {
+        if (gitLabPluginConfiguration.jsonMode().equals(JsonMode.NONE)) return;
+
+        String r = revision != null ? revision : gitLabPluginConfiguration.commitSHA().get(0);
+        ReportIssue reportIssue = ReportIssue.newBuilder().issue(issue).rule(rule).revision(r).url(gitLabUrl).file(src).ruleLink(ruleLink).reportedOnDiff(false).build();
+
+        jsonIssues.add(reportIssue);
     }
 
     private void increment(Severity severity) {
